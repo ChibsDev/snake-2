@@ -46,10 +46,20 @@ const width = cvs.width;
 const height = cvs.height;
 
 // game vars 
-const FPS = 1000/15;
+let FPS = 1000/15;
 let gameLoop;
 const squareSize = 20;
 let gameStarted = false; 
+
+function updateFPS() {
+    if (score < 3) {
+      FPS = 1000 / 2;
+    } else if (score >= 3 && score < 5) {
+      FPS = 1000 / 10; // 
+    } else {
+      FPS = 1000 / 15; 
+    }
+  }
 
 
 // game color 
@@ -138,7 +148,10 @@ function hasEaten() {
     return head.x === food.x && head.y === food.y;
 }
 
+
+
 document.addEventListener('keyup' , setDirection);
+
 function setDirection(e){
     const newDirection = e.key;
     const oldDirection = currentDirection;
@@ -152,13 +165,21 @@ function setDirection(e){
         || 
         (newDirection === directions.DOWN && oldDirection !== directions.UP)
    ){
+       
         if ( !gameStarted) {
+            
             gameStarted = true;
-            gameLoop = setInterval(frame,FPS);
+            gameLoop = setInterval(frame, FPS);
         }
-
+    
         directionQueue.push(newDirection);
-   }
+    
+        updateFPS();
+
+        clearInterval(gameLoop); // Clear the previous interval
+        gameLoop = setInterval(frame, FPS);
+        
+      }
 }
 
 // Horizontal and vertical cvs squares 
@@ -194,8 +215,10 @@ let score = 0;
 let highScore = localStorage.getItem('high-score') || 0;
 function renderScore() {
      score = snake.length - initialSnakeLength;
-    scoreEl.innerHTML = `${score}`
-    highScoreEl.innerHTML = `${highScore}`
+    scoreEl.innerHTML = `${score}`;
+    highScoreEl.innerHTML = `${highScore}`;
+    updateFPS();
+
 }
 
 // hit wall 
@@ -246,6 +269,7 @@ function frame() {
     moveSnake();
     drawSnake();
     renderScore();
+    
 
     if ( hitWall() || hitSelf() ) {
         clearInterval(gameLoop);
