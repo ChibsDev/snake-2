@@ -51,7 +51,6 @@ let gameLoop;
 const squareSize = 20;
 let gameStarted = false; 
 
-// draw board
 
 // game color 
 let boardColor = '#000000', headColor = '#FFF', bodyColor = '#999'
@@ -67,6 +66,7 @@ const directions = {
 
 }
 
+// draw board
 
 function drawboard() {
     ctx.fillStyle = boardColor;

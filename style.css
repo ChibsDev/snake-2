@@ -25,6 +25,20 @@
   
     position: relative;
   }
+
+.info-container {
+  width: 400px;
+  height: 250px;
+  border: 1px solid red;
+  
+}
+
+.info-container {
+  position: absolute;
+  top: 150px;
+  left: 20px; 
+}
+
   #cvs {
     position: absolute;
     left: 0;
@@ -113,6 +127,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+  z-index: 100;
 }
 
 .title {
