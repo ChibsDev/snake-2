@@ -1,3 +1,34 @@
+// Add event listeners for the buttons on the homepage
+const homepagePlayBtn = document.querySelector('.play');
+const homepageSettingsBtn = document.querySelector('.settings');
+const homepageRulesBtn = document.querySelector('.rules');
+
+homepagePlayBtn.addEventListener('click', startGame);
+homepageSettingsBtn.addEventListener('click', openSettingsModal);
+homepageRulesBtn.addEventListener('click', openRulesModal);
+
+// Function to start the game and hide the homepage
+function startGame() {
+  const homepage = document.querySelector('.homepage');
+  const container = document.querySelector('.container');
+  homepage.classList.add('hide');
+  container.classList.remove('hide');
+}
+
+// Function to open the settings modal
+function openSettingsModal() {
+  const modal = document.getElementById('settings-modal');
+  modal.classList.remove('hide');
+}
+
+// Function to open the rules modal
+function openRulesModal() {
+  const modal = document.getElementById('rules-modal');
+  modal.classList.remove('hide');
+}
+
+
+
 // select elements
 const scoreEl = document.querySelector('.score');
 const highScoreEl = document.querySelector('.high-score');
@@ -246,3 +277,5 @@ function restartGame() {
   // re-draw everything
   frame();
 }
+
+
