@@ -11,7 +11,15 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div class="container">
+    <body>
+      <div class="homepage">
+        <h1 class="title">Snake Game</h1>
+        <h3 class="subtitle">Welcome to the Snake Game!</h3>
+        <button class="play">PLAY</button>
+        <button class="settings">SETTINGS</button>
+        <button class="rules">RULES</button>
+      </div>
+    <div class="container hide">
       <canvas width="400" height="400" id="cvs"></canvas>
       <div class="score"></div>
       <div class="high-score"></div>
@@ -23,6 +31,12 @@
         </div>
         <div class="play-again">Play Again!</div>
       </div>
+    </div>
+
+    <div class="modal hide" id="settings-modal">
+    </div>
+
+    <div class="modal hide" id="rules-modal">
     </div>
     <script src="./script.js"></script>
   </body>
