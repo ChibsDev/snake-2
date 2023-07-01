@@ -1,4 +1,5 @@
-// Add event listeners for the buttons on the homepage
+     //HOMEPAGE AND MODAL FUNCTIONS
+  
 const homepagePlayBtn = document.querySelector('.play');
 const homepageSettingsBtn = document.querySelector('.settings');
 const homepageRulesBtn = document.querySelector('.rules');
@@ -7,21 +8,21 @@ homepagePlayBtn.addEventListener('click', startGame);
 homepageSettingsBtn.addEventListener('click', openSettingsModal);
 homepageRulesBtn.addEventListener('click', openRulesModal);
 
-// Function to start the game and hide the homepage
+
 function startGame() {
   const homepage = document.querySelector('.homepage');
   const container = document.querySelector('.container');
   homepage.classList.add('hide');
   container.classList.remove('hide');
+  audio.pause();
+  playIcon.src = './media/images/volume_off_FILL0_wght400_GRAD0_opsz48.png';
 }
 
-// Function to open the settings modal
 function openSettingsModal() {
   const modal = document.getElementById('settings-modal');
   modal.classList.remove('hide');
 }
 
-// Function to open the rules modal
 function openRulesModal() {
   const modal = document.getElementById('rules-modal');
   modal.classList.remove('hide');
@@ -29,43 +30,46 @@ function openRulesModal() {
 
 
 
-// select elements
+// SELECT ELEMENTS 
+
 const scoreEl = document.querySelector('.score');
 const highScoreEl = document.querySelector('.high-score');
 const gameOverEl = document.querySelector('.game-over');
 const playAgainBtn = document.querySelector('.play-again');
-// select cvs 
+
+// CANVAS AND CONTEXT 
 const cvs = document.getElementById('cvs');
 const ctx = cvs.getContext("2d"); 
-
-//add border 
 cvs.style.border = '1px solid #fff';
 
-// cvs dimensions
+// CANVAS DIMENSIONS 
 const width = cvs.width;
 const height = cvs.height;
 
-// game vars 
+// GAME VARS
 let FPS = 1000/15;
 let gameLoop;
 const squareSize = 20;
 let gameStarted = false; 
 
+// FPS VARS
+let slowFPS = 1000 / 5;
+let fasterFPS = 1000 / 10;
+let normalFPS = 1000 / 15;
+
+// SPEED FUNCTION
 function updateFPS() {
-    if (score < 3) {
-      FPS = 1000 / 2;
-    } else if (score >= 3 && score < 5) {
-      FPS = 1000 / 10; // 
-    } else {
-      FPS = 1000 / 15; 
-    }
+  if (score < 3) {
+    FPS = slowFPS;
+  } else if (score >= 3 && score < 5) {
+    FPS = fasterFPS;
+  } else {
+    FPS = normalFPS;
   }
+}
 
 
-// game color 
-let boardColor = '#000000', headColor = '#FFF', bodyColor = '#999'
-
-//direction 
+//DIRECTION 
 let currentDirection = '';
 let directionQueue = [];
 const directions = {
@@ -76,15 +80,18 @@ const directions = {
 
 }
 
-// draw board
 
+// GAME COLOUR  
+let boardColor = '#000000', headColor = '#FFF', bodyColor = '#999'
+
+// GAME BOARD
 function drawboard() {
     ctx.fillStyle = boardColor;
     ctx.fillRect(0, 0, width, height)
+    updateFPS();
 }
 
-// drae square 
-
+// DRAW SQUARE
 function drawSquare(x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * squareSize, y * squareSize, squareSize, squareSize);
@@ -93,7 +100,7 @@ function drawSquare(x, y, color) {
     ctx.strokeRect(x * squareSize, y * squareSize, squareSize, squareSize);
 }
 
-// snake
+// SNAKE
 let snake = [
     { x :2 , y :0}, // Head
     { x :1 , y :0}, // Body
@@ -164,14 +171,14 @@ function setDirection(e){
         (newDirection === directions.UP && oldDirection !== directions.DOWN)
         || 
         (newDirection === directions.DOWN && oldDirection !== directions.UP)
-   ){
+   ) {
        
         if ( !gameStarted) {
             
             gameStarted = true;
             gameLoop = setInterval(frame, FPS);
         }
-    
+        
         directionQueue.push(newDirection);
     
         updateFPS();
@@ -182,11 +189,11 @@ function setDirection(e){
       }
 }
 
-// Horizontal and vertical cvs squares 
+// Horizontal and vertical canvas squares 
 const horizontalSq = width / squareSize;
 const verticalSq = height / squareSize;
 
-// food
+// FOOD 
 let food = createFood();
 function createFood() {
     let food = {
@@ -205,23 +212,33 @@ function createFood() {
 
     return food;
 }
+
 function drawFood() {
     drawSquare(food.x, food.y, '#F95700');
 }
 
-//score 
+//SCORE
 const initialSnakeLength = snake.length;
 let score = 0;
 let highScore = localStorage.getItem('high-score') || 0;
+
 function renderScore() {
      score = snake.length - initialSnakeLength;
     scoreEl.innerHTML = `${score}`;
     highScoreEl.innerHTML = `${highScore}`;
     updateFPS();
 
+    
+  const infoContentEl = document.getElementById('info-content');
+  if (score === 3 || score === 5 || score === 7) {
+    infoContentEl.innerHTML = 'Lets go a lil faster ok';
+  } else {
+    infoContentEl.innerHTML = '';
+  }
+
 }
 
-// hit wall 
+// DETECT COLLISION
 function hitWall() {
     const head = snake[0];
 
@@ -241,7 +258,7 @@ function hitSelf() {
    return snakeBody.some( (square) => square.x === head.x && square.y === head.y );
 }
 
-// game over
+// GAME OVER
 function gameOver() {
 
     const scoreEl = document.querySelector('.game-over-score .current');
@@ -252,16 +269,12 @@ function gameOver() {
  
     highScore = Math.max(score, highScore);
     localStorage.setItem('high-score', highScore);
-  
-    // update the score and high score el
     scoreEl.innerHTML = ` ${score}`;
     highScoreEl.innerHTML = ` ${highScore}`;
-  
-    // show game over el
     gameOverEl.classList.remove('hide');
   }
 
-//loop
+// LOOP
 function frame() {
 
     drawboard();
@@ -278,10 +291,9 @@ function frame() {
 }
 frame();
 
-// restart the game
+// GAME RESET
 playAgainBtn.addEventListener('click', restartGame);
 function restartGame() {
-  // reset snake length and position
   snake = [
     { x: 2, y: 0 }, // Head
     { x: 1, y: 0 }, // Body
@@ -292,14 +304,169 @@ function restartGame() {
   currentDirection = '';
   directionsQueue = [];
 
-  // hide the game over screen
   gameOverEl.classList.add('hide');
 
-  // reset the gameStarted state to false
   gameStarted = false;
 
   // re-draw everything
   frame();
 }
+
+//SETTINGS 
+
+const settingsModal = document.getElementById('settings-modal');
+const saveSettingsBtn = document.getElementById('save-settings');
+const closeSettingsBtn = document.getElementById('close-settings');
+const themeOptions = document.getElementsByName('theme');
+const snakePreviewCanvas = document.getElementById('snakePreview');
+const snakePreviewCtx = snakePreviewCanvas.getContext('2d');
+const previewSquareSize = 20;
+const previewCanvasWidth = previewSquareSize * 10;
+const previewCanvasHeight = previewSquareSize * 10;
+
+// Function to draw the snake preview
+function drawSnakePreview() {
+  snakePreviewCtx.clearRect(0, 0, snakePreviewCanvas.width, snakePreviewCanvas.height);
+
+  const snakeHeadColor = headColor;
+  const snakeBodyColor = bodyColor;
+
+  // Calculate the center position of the canvas
+  const centerX = Math.floor(snakePreviewCanvas.width / 2);
+  const centerY = Math.floor(snakePreviewCanvas.height / 2);
+
+  // Calculate the starting position of the snake's head
+  const startX = centerX - Math.floor(snake.length / 2) * previewSquareSize;
+  const startY = centerY - Math.floor(snake.length / 2) * previewSquareSize;
+
+  // Draw head
+  const head = snake[0];
+  snakePreviewCtx.fillStyle = snakeHeadColor;
+  snakePreviewCtx.fillRect(startX + head.x * previewSquareSize, startY + head.y * previewSquareSize, previewSquareSize, previewSquareSize);
+
+  // Draw body
+  for (let i = 1; i < snake.length; i++) {
+    const segment = snake[i];
+    snakePreviewCtx.fillStyle = snakeBodyColor;
+    snakePreviewCtx.fillRect(startX + segment.x * previewSquareSize, startY + segment.y * previewSquareSize, previewSquareSize, previewSquareSize);
+  }
+}
+
+//DIFFICULTY 
+
+function setDifficulty(difficulty) {
+  if (difficulty === 'easy') {
+    slowFPS = 1000 / 2;
+    fasterFPS = 1000 / 4;
+    normalFPS = 1000 / 6;
+  } else if (difficulty === 'normal') {
+    slowFPS = 1000 / 5;
+    fasterFPS = 1000 / 10;
+    normalFPS = 1000 / 15;
+  } else if (difficulty === 'hard') {
+    slowFPS = 1000 / 10;
+    fasterFPS = 1000 / 15;
+    normalFPS = 1000 / 20;
+  } else {
+   slowFPS = 1000 / 5;
+   fasterFPS = 1000 / 10;
+   normalFPS = 1000 / 15;
+  }
+}
+
+document.getElementById('easyButton').addEventListener('click', () => {
+  setDifficulty('easy');
+});
+
+document.getElementById('normalButton').addEventListener('click', () => {
+  setDifficulty('normal');
+});
+
+document.getElementById('hardButton').addEventListener('click', () => {
+  setDifficulty('hard');
+});
+
+
+// THEMES 
+
+function changeThemeColors() {
+  const selectedTheme = document.querySelector('input[name="theme"]:checked');
+
+  if (selectedTheme) {
+    const theme = selectedTheme.value;
+
+    switch (theme) {
+      case 'theme1':
+        boardColor = '#000000';
+        headColor = '#FFF';
+        bodyColor = '#999';
+        break;
+      case 'theme2':
+        boardColor = '#333';
+        headColor = '#FFC107';
+        bodyColor = '#FF9800';
+        break;
+      case 'theme3':
+        boardColor = '#607D8B';
+        headColor = '#F44336';
+        bodyColor = '#FFEB3B';
+        break;
+      default:
+        boardColor = '#000000';
+        headColor = '#FFF';
+        bodyColor = '#999';
+        break;
+    }
+  } else {
+    boardColor = '#000000';
+    headColor = '#FFF';
+    bodyColor = '#999';
+  }
+
+  drawSnakePreview();
+  drawboard();
+  drawSnake();
+  drawFood();
+}
+
+themeOptions.forEach(option => {
+  option.addEventListener('change', changeThemeColors);
+});
+
+  
+
+// SAVE THEME SETTINGS
+function saveSettings() {
+  changeThemeColors();
+  closeSettingsModal();
+}
+
+function closeSettingsModal() {
+  settingsModal.classList.add('hide');
+}
+
+saveSettingsBtn.addEventListener('click', saveSettings);
+closeSettingsBtn.addEventListener('click', closeSettingsModal);
+
+// SELECT AUDIO AND ICON CONTROL ELEMENTS
+const audio = document.getElementById('backgroundAudio');
+const audioControl = document.getElementById('audioControl');
+const playIcon = document.getElementById('playIcon');
+
+// AUDIO TOGGLE
+function toggleAudio() {
+  if (audio.paused) {
+    audio.play();
+    playIcon.src = './media/images/volume_up_FILL0_wght400_GRAD0_opsz48.png';
+  } else {
+    audio.pause();
+    playIcon.src = './media/images/volume_off_FILL0_wght400_GRAD0_opsz48.png';
+  }
+}
+
+window.addEventListener('load', () => {
+  audio.play();
+  playIcon.src = './media/images/volume_up_FILL0_wght400_GRAD0_opsz48.png';
+});
 
 

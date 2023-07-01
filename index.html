@@ -10,11 +10,17 @@
     <title>Snake JS</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body>
     <body>
+      <audio id="backgroundAudio" src="./media/audio/nokia-remix.mp3" autoplay loop></audio>
+
+      <div id="audioControl" onclick="toggleAudio()">
+        <img src="./media/images/volume_up_FILL0_wght400_GRAD0_opsz48.png" alt="audio on" id="playIcon">
+      </div>
+      
+
       <div class="homepage">
         <h1 class="title">Snake Game</h1>
-        <h3 class="subtitle">Welcome to the Snake Game!</h3>
+        <h3 class="subtitle">Chibu's game submission for Founders & Coders Cohort Sept 23!</h3>
         <button class="play">PLAY</button>
         <button class="settings">SETTINGS</button>
         <button class="rules">RULES</button>
@@ -34,10 +40,56 @@
     </div>
 
         <div class="info-container">
-
+            <h2 id="info-content"> </h2>
     </div>
 
     <div class="modal hide" id="settings-modal">
+
+      <div class="modal-content">
+
+        <h1 id="settings-title">Settings</h1>
+        <div class="theme-options" style="border: 1px solid red;">
+          <h2 class="settings-subtitle">Themes</h2>
+          <label>
+            <input type="radio" name="theme" value="default" checked> Default
+          </label>
+          <label>
+            <input type="radio" name="theme" value="theme1"> theme1
+          </label>
+          <label>
+            <input type="radio" name="theme" value="theme2"> theme2
+          </label>
+          <label>
+            <input type="radio" name="theme" value="theme3"> theme3
+          </label>
+     
+        </div>
+
+
+
+        <canvas id="snakePreview" width="400" height="200" ></canvas>
+
+        <div class="difficulty-section">
+          <h2 class="settings-subtitle">Difficulty</h2>
+          
+          <div class="difficulty-section-btns">
+            
+            <button id="easyButton">Easy</button>
+            <button id="normalButton">Normal</button>
+            <button id="hardButton">Hard</button>
+          </div>
+
+        </div>
+
+        <div class="call-to-action-btns">
+          <button id="close-settings" class="btn">Back</button>
+          <button id="save-settings" class="btn">Save</button>
+        </div>
+
+      </div>
+
+      
+</div>
     </div>
 
     <div class="modal hide" id="rules-modal">
