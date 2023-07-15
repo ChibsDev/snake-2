@@ -1,12 +1,28 @@
      //HOMEPAGE AND MODAL FUNCTIONS
   
+const homepageBtns = document.querySelector('.homepage-btns');
 const homepagePlayBtn = document.querySelector('.play');
 const homepageSettingsBtn = document.querySelector('.settings');
 const homepageRulesBtn = document.querySelector('.rules');
+const homepageTitle = document.querySelector('.title');
 
 homepagePlayBtn.addEventListener('click', startGame);
 homepageSettingsBtn.addEventListener('click', openSettingsModal);
 homepageRulesBtn.addEventListener('click', openRulesModal);
+
+window.onload = function() {
+
+  setTimeout(function() {
+    homepageTitle.classList.add('fade-down');
+    homepageTitle.classList.remove('zero-opacity');
+  }, 3500);
+
+  setTimeout(function() {
+    homepageBtns.classList.add('fade-in-right');
+    homepageBtns.classList.remove('zero-opacity');
+  }, 5500);
+
+}
 
 
 function startGame() {
@@ -40,7 +56,7 @@ const playAgainBtn = document.querySelector('.play-again');
 // CANVAS AND CONTEXT 
 const cvs = document.getElementById('cvs');
 const ctx = cvs.getContext("2d"); 
-cvs.style.border = '1px solid #fff';
+cvs.style.boxShadow = '0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0)';
 
 // CANVAS DIMENSIONS 
 const width = cvs.width;
@@ -106,6 +122,7 @@ let snake = [
     { x :1 , y :0}, // Body
     { x :0 , y :0}, // Tail
 ];
+
 function drawSnake() {
    snake.forEach((square, index) => {
     const color = index === 0 ? headColor : bodyColor;
@@ -183,7 +200,7 @@ function setDirection(e){
     
         updateFPS();
 
-        clearInterval(gameLoop); // Clear the previous interval
+        clearInterval(gameLoop); 
         gameLoop = setInterval(frame, FPS);
         
       }
@@ -224,8 +241,8 @@ let highScore = localStorage.getItem('high-score') || 0;
 
 function renderScore() {
      score = snake.length - initialSnakeLength;
-    scoreEl.innerHTML = `${score}`;
-    highScoreEl.innerHTML = `${highScore}`;
+    scoreEl.innerHTML = `🏅${score}`;
+    highScoreEl.innerHTML = `🔥${highScore}`;
     updateFPS();
 
     
@@ -269,8 +286,8 @@ function gameOver() {
  
     highScore = Math.max(score, highScore);
     localStorage.setItem('high-score', highScore);
-    scoreEl.innerHTML = ` ${score}`;
-    highScoreEl.innerHTML = ` ${highScore}`;
+    scoreEl.innerHTML = `🏅 ${score}`;
+    highScoreEl.innerHTML = ` 🔥${highScore}`;
     gameOverEl.classList.remove('hide');
   }
 
@@ -317,6 +334,7 @@ function restartGame() {
 const settingsModal = document.getElementById('settings-modal');
 const saveSettingsBtn = document.getElementById('save-settings');
 const closeSettingsBtn = document.getElementById('close-settings');
+const closeRulesBtn = document.getElementById('close-rules');
 const themeOptions = document.getElementsByName('theme');
 const snakePreviewCanvas = document.getElementById('snakePreview');
 const snakePreviewCtx = snakePreviewCanvas.getContext('2d');
@@ -368,23 +386,45 @@ function setDifficulty(difficulty) {
     fasterFPS = 1000 / 15;
     normalFPS = 1000 / 20;
   } else {
-   slowFPS = 1000 / 5;
-   fasterFPS = 1000 / 10;
-   normalFPS = 1000 / 15;
+    slowFPS = 1000 / 5;
+    fasterFPS = 1000 / 10;
+    normalFPS = 1000 / 15;
   }
 }
 
-document.getElementById('easyButton').addEventListener('click', () => {
+const easyButton = document.getElementById('easyButton');
+const normalButton = document.getElementById('normalButton');
+const hardButton = document.getElementById('hardButton');
+
+function handleClick(event) {
+
+  easyButton.classList.remove('active');
+  normalButton.classList.remove('active');
+  hardButton.classList.remove('active');
+
+  
+  event.target.classList.add('active');
+}
+
+easyButton.addEventListener('click', (event) => {
   setDifficulty('easy');
+  handleClick(event);
+  console.log("easy selected");
 });
 
-document.getElementById('normalButton').addEventListener('click', () => {
+normalButton.addEventListener('click', (event) => {
   setDifficulty('normal');
+  handleClick(event);
+  console.log("normal selected");
 });
 
-document.getElementById('hardButton').addEventListener('click', () => {
+hardButton.addEventListener('click', (event) => {
   setDifficulty('hard');
+  handleClick(event);
+  console.log("hard selected");
 });
+
+
 
 
 // THEMES 
@@ -398,8 +438,8 @@ function changeThemeColors() {
     switch (theme) {
       case 'theme1':
         boardColor = '#000000';
-        headColor = '#FFF';
-        bodyColor = '#999';
+        headColor = '#FBBD08';
+        bodyColor = '#95b82f';
         break;
       case 'theme2':
         boardColor = '#333';
@@ -407,9 +447,14 @@ function changeThemeColors() {
         bodyColor = '#FF9800';
         break;
       case 'theme3':
-        boardColor = '#607D8B';
-        headColor = '#F44336';
-        bodyColor = '#FFEB3B';
+        boardColor = '#ff8e57';
+        headColor = '#a333c8';
+        bodyColor = '#f225a1';
+        break;
+      case 'theme4':
+        boardColor = '#5276ca';
+        headColor = '#00B5AD';
+        bodyColor = '#00a5c5';
         break;
       default:
         boardColor = '#000000';
@@ -445,6 +490,7 @@ function closeSettingsModal() {
   settingsModal.classList.add('hide');
 }
 
+
 saveSettingsBtn.addEventListener('click', saveSettings);
 closeSettingsBtn.addEventListener('click', closeSettingsModal);
 
@@ -452,6 +498,17 @@ closeSettingsBtn.addEventListener('click', closeSettingsModal);
 const audio = document.getElementById('backgroundAudio');
 const audioControl = document.getElementById('audioControl');
 const playIcon = document.getElementById('playIcon');
+
+
+//RULES MODAL 
+
+closeRulesBtn.addEventListener('click', closeRulesModal);
+
+function closeRulesModal() {
+  const modal = document.getElementById('rules-modal');
+  modal.classList.add('hide');
+}
+
 
 // AUDIO TOGGLE
 function toggleAudio() {

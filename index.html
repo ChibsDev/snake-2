@@ -19,22 +19,31 @@
       
 
       <div class="homepage">
-        <h1 class="title">Snake Game</h1>
-        <h3 class="subtitle">Chibu's game submission for Founders & Coders Cohort Sept 23!</h3>
-        <button class="play">PLAY</button>
-        <button class="settings">SETTINGS</button>
-        <button class="rules">RULES</button>
+        <h1 class="title zero-opacity">Snake Game</h1>
+        <div class="homepage-btns zero-opacity">
+          <button class="play btn">PLAY</button>
+          <button class="settings btn">SETTINGS</button>
+          <button class="rules btn">RULES</button>
+        </div>
       </div>
     <div class="container hide">
+
       <canvas width="400" height="400" id="cvs"></canvas>
+
       <div class="score"></div>
+
       <div class="high-score"></div>
+
       <div class="game-over hide">
+
         <div class="message">Game Over!</div>
+
         <div class="game-over-score">
+
           <div class="current"></div>
           <div class="high"></div>
         </div>
+        
         <div class="play-again">Play Again!</div>
       </div>
     </div>
@@ -48,20 +57,30 @@
       <div class="modal-content">
 
         <h1 id="settings-title">Settings</h1>
-        <div class="theme-options" style="border: 1px solid red;">
-          <h2 class="settings-subtitle">Themes</h2>
-          <label>
-            <input type="radio" name="theme" value="default" checked> Default
-          </label>
-          <label>
-            <input type="radio" name="theme" value="theme1"> theme1
-          </label>
-          <label>
-            <input type="radio" name="theme" value="theme2"> theme2
-          </label>
-          <label>
-            <input type="radio" name="theme" value="theme3"> theme3
-          </label>
+
+        <div class="call-to-action-btns">
+          <button id="close-settings" class="btn">Back</button>
+          <button id="save-settings" class="btn">Save</button>
+        </div>
+
+        <div class="theme-options" >
+          <h2 class="settings-subtitle">Snake</h2>
+
+
+          <input type="radio" name="theme" id="white" value="default" />
+          <label for="white"><span class="white"></span></label>
+          
+          <input type="radio" name="theme" id="yellow" value="theme1" />
+          <label for="yellow"><span class="yellow"></span></label>
+          
+          <input type="radio" name="theme" id="orange" value="theme2" />
+          <label for="orange"><span class="orange"></span></label>
+          
+          <input type="radio" name="theme" id="purple" value="theme3" />
+          <label for="purple"><span class="purple"></span></label>
+          
+          <input type="radio" name="theme" id="blue" value="theme4" />
+          <label for="blue"><span class="blue"></span></label>
      
         </div>
 
@@ -74,16 +93,12 @@
           
           <div class="difficulty-section-btns">
             
-            <button id="easyButton">Easy</button>
-            <button id="normalButton">Normal</button>
-            <button id="hardButton">Hard</button>
+            <button class="btn" id="easyButton">Easy</button>
+            <button class="btn" id="normalButton">Normal</button>
+            <button class="btn" id="hardButton">Hard</button>
+            
           </div>
 
-        </div>
-
-        <div class="call-to-action-btns">
-          <button id="close-settings" class="btn">Back</button>
-          <button id="save-settings" class="btn">Save</button>
         </div>
 
       </div>
@@ -93,6 +108,28 @@
     </div>
 
     <div class="modal hide" id="rules-modal">
+      <div class="modal-content">
+
+
+        <div id="rules-content-info">
+
+          <div class="rules-content-box" id="rules-img">
+            <img src="./media/images/arrows.png" alt="">
+          </div>
+
+          <div class="rules-content-box" id="rules-text">
+
+            <h2>Objective</h2>
+              <p>Use the arrow keys (up, down, left, right) to guide the snake and eat as much food as you can! As the snake consumes food, it gets longer. The game becomes more challenging as the snake grows longer and faster, making it harder to avoid collisions. The game ends if the snake hits a wall or collides with its own body. In the home page you have the ability to change the colour theme of your snake and adjust the difficulty level.</p>
+          </div>
+
+        </div>
+
+        <div class="rules-btn-div">
+          <button id="close-rules" class="btn">Back</button>
+        </div>
+
+      </div>
     </div>
     <script src="./script.js"></script>
   </body>
