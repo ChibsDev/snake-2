@@ -248,7 +248,7 @@ function renderScore() {
     
   const infoContentEl = document.getElementById('info-content');
   if (score === 3 || score === 5 || score === 7) {
-    infoContentEl.innerHTML = 'Lets go a lil faster ok';
+    infoContentEl.innerHTML = 'How aobut a lil more speed?';
   } else {
     infoContentEl.innerHTML = '';
   }

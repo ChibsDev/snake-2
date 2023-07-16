@@ -21,6 +21,8 @@
     --violet: #6435C9;
     --purple: #A333C8;
     --pink: #E03997;
+    --neon-blue:#03e9f4;
+
   
   }
   
@@ -82,7 +84,7 @@
   height: 250px;
   position: absolute;
   top: 150px;
-  left: 20px; 
+  left: 25px; 
   display: flex;
   justify-content: center;
   align-items: center;  
@@ -148,9 +150,7 @@
     font-size: 2rem;
   }
   
-  .hide {
-    visibility: hidden;
-  }
+
 
   
 
@@ -198,7 +198,7 @@
               0 0 25px #03e9f4,
               0 0 50px #03e9f4,
               0 0 200px #03e9f4;
-   -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
+   /* -webkit-box-reflect:below 1px linear-gradient(transparent, #0005); */
 }
 
 
@@ -246,6 +246,7 @@
 
 .hide {
   display: none;
+  visibility: hidden;
 }
 
 .zero-opacity {
@@ -294,11 +295,7 @@
     display: none;
   }
   
-  input[type="radio"]:checked + label {
-    span {
-      /* transform: scale(1.25); */
-    }
-  }
+
   
   label {
     display: inline-block;
@@ -495,3 +492,4 @@ input[type="radio"]:checked + label span.purple {
   50%  { transform: translate(0, 5px); }
   100%   { transform: translate(0, -0px); }   
 }
+
