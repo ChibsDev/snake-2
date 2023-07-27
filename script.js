@@ -362,11 +362,14 @@ function drawSnakePreview() {
   snakePreviewCtx.fillStyle = snakeHeadColor;
   snakePreviewCtx.fillRect(startX + head.x * previewSquareSize, startY + head.y * previewSquareSize, previewSquareSize, previewSquareSize);
 
+
   // Draw body
   for (let i = 1; i < snake.length; i++) {
     const segment = snake[i];
     snakePreviewCtx.fillStyle = snakeBodyColor;
     snakePreviewCtx.fillRect(startX + segment.x * previewSquareSize, startY + segment.y * previewSquareSize, previewSquareSize, previewSquareSize);
+    snakePreviewCtx.strokeStyle = "black";
+    snakePreviewCtx.strokeRect(startX + segment.x * previewSquareSize, startY + segment.y * previewSquareSize, previewSquareSize, previewSquareSize);
   }
 }
 
